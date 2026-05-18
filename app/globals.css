@@ -1,0 +1,278 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ninja-black font-sans text-scroll antialiased;
+    background-image:
+      radial-gradient(
+        ellipse 80% 50% at 50% -20%,
+        rgba(255, 107, 0, 0.15),
+        transparent
+      ),
+      radial-gradient(
+        circle at 100% 100%,
+        rgba(45, 74, 124, 0.2),
+        transparent 40%
+      );
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .container-narrow {
+    @apply mx-auto max-w-3xl px-4 sm:px-6;
+  }
+
+  .container-wide {
+    @apply mx-auto max-w-5xl px-4 sm:px-6;
+  }
+
+  .naruto-title {
+    @apply font-display font-normal uppercase tracking-wide text-ninja-orange;
+    text-shadow:
+      2px 2px 0 #0a0a0f,
+      -1px -1px 0 #0a0a0f,
+      0 0 30px rgba(255, 107, 0, 0.4);
+  }
+
+  .scroll-card {
+    @apply rounded-lg border-[3px] border-ninja-ink bg-scroll-texture text-ninja-ink shadow-scroll;
+  }
+
+  .scroll-card-inner {
+    @apply rounded-md border border-amber-900/20 bg-scroll/80 p-6 md:p-8;
+  }
+
+  .dark-panel {
+    @apply rounded-lg border-2 border-ninja-orange/40 bg-ninja-navy/80 backdrop-blur-sm;
+  }
+
+  .form-input {
+    @apply w-full rounded-md border-2 border-ninja-ink/30 bg-scroll px-4 py-3 text-ninja-ink transition-colors placeholder:text-ninja-ink/40 focus:border-ninja-orange focus:outline-none focus:ring-2 focus:ring-ninja-orange/30;
+  }
+
+  .form-input-error {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500/30;
+  }
+
+  .form-label {
+    @apply mb-1.5 block text-sm font-bold uppercase tracking-wide text-ninja-ink;
+  }
+
+  .flip-digit {
+    perspective: 320px;
+  }
+
+  .flip-flap {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+
+  .headband-line {
+    @apply h-1 w-full bg-gradient-to-r from-transparent via-ninja-orange to-transparent;
+  }
+
+  .headband-cloth {
+    @apply relative border-y-4 border-ninja-black bg-ninja-orange;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .headband-cloth::before,
+  .headband-cloth::after {
+    content: "";
+    @apply absolute top-0 h-full w-8 bg-ninja-black;
+  }
+
+  .headband-cloth::before {
+    left: 0;
+    clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+  }
+
+  .headband-cloth::after {
+    right: 0;
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .scroll-edge {
+    box-shadow:
+      inset 0 4px 8px rgba(139, 90, 43, 0.2),
+      inset 0 -4px 8px rgba(139, 90, 43, 0.15);
+  }
+
+  .ninja-scroll {
+    @apply mx-auto max-w-full;
+    padding: 0 1.25rem;
+  }
+
+  .ninja-scroll-rod {
+    @apply absolute top-0 z-20 w-3 rounded-full md:w-4;
+    height: calc(100% + 0.5rem);
+    top: -0.25rem;
+    background: linear-gradient(90deg, #5c3d1e, #8b5a2b, #5c3d1e);
+    box-shadow:
+      2px 0 4px rgba(0, 0, 0, 0.35),
+      inset -1px 0 2px rgba(255, 255, 255, 0.15);
+  }
+
+  .ninja-scroll-rod-left {
+    left: 0;
+  }
+
+  .ninja-scroll-rod-right {
+    right: 0;
+  }
+
+  .ninja-scroll-rope {
+    @apply absolute z-10 h-1.5 rounded-full bg-amber-900/90;
+    left: 1rem;
+    right: 1rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .ninja-scroll-rope-top {
+    top: 0.35rem;
+  }
+
+  .ninja-scroll-rope-bottom {
+    bottom: 0.35rem;
+  }
+
+  .ninja-scroll-paper {
+    @apply relative border-[3px] border-ninja-ink bg-scroll-texture shadow-scroll scroll-edge;
+    margin: 0.75rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .ninja-scroll-paper::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0 opacity-30;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(139, 90, 43, 0.08) 3px,
+      rgba(139, 90, 43, 0.08) 4px
+    );
+  }
+
+  .kunai-corner {
+    @apply pointer-events-none absolute text-ninja-orange/50;
+  }
+
+  .sakura-flash {
+    background: radial-gradient(
+      circle at 50% 45%,
+      rgba(255, 183, 197, 0.35) 0%,
+      transparent 55%
+    );
+    animation: sakura-flash 1.1s ease-out forwards;
+  }
+
+  @keyframes sakura-flash {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    30% {
+      opacity: 0.9;
+    }
+    60% {
+      opacity: 0.4;
+    }
+  }
+
+  .sakura-petal-layer {
+    contain: layout style paint;
+    transform: translateZ(0);
+  }
+
+  .sakura-petal-burst,
+  .sakura-petal-fall {
+    position: absolute;
+    pointer-events: none;
+    width: var(--size);
+    height: var(--size);
+    background: var(--hue);
+    border-radius: 50% 2% 50% 50%;
+    transform: rotate(35deg);
+    will-change: transform, opacity;
+  }
+
+  .sakura-petal-burst {
+    animation: sakura-burst var(--dur) var(--delay)
+      cubic-bezier(0.12, 0.88, 0.3, 1) forwards;
+  }
+
+  .sakura-petal-fall {
+    top: -4%;
+    animation: sakura-fall var(--dur) var(--delay) linear forwards;
+  }
+
+  @keyframes sakura-burst {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0) rotate(0deg);
+      opacity: 0;
+    }
+    15% {
+      opacity: 0.95;
+    }
+    100% {
+      transform: translate3d(var(--tx), var(--ty), 0) scale(0.85)
+        rotate(var(--rot));
+      opacity: 0;
+    }
+  }
+
+  @keyframes sakura-fall {
+    0% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(var(--drift), 108vh, 0) rotate(var(--rot-fall));
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sakura-petal-burst,
+    .sakura-petal-fall {
+      animation: none;
+      opacity: 0;
+    }
+  }
+
+  .floating-shuriken,
+  .weapon-spin {
+    transform-origin: center;
+    animation: weapon-spin 7s linear infinite;
+  }
+
+  @keyframes weapon-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-shuriken,
+    .weapon-spin {
+      animation: none;
+    }
+  }
+}

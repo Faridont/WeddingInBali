@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Four point shuriken">
+  <title>Four Point Shuriken</title>
+  <desc>Simple colorable SVG shuriken. Change CSS color to repaint it.</desc>
+
+  <path fill="currentColor" fill-rule="evenodd" d="
+    M 256 24
+    L 296 180
+    C 285 199 292 217 312 224
+    L 488 256
+    L 312 288
+    C 292 295 285 313 296 332
+    L 256 488
+    L 216 332
+    C 227 313 220 295 200 288
+    L 24 256
+    L 200 224
+    C 220 217 227 199 216 180
+    Z
+
+    M 256 226
+    A 30 30 0 1 0 256 286
+    A 30 30 0 1 0 256 226
+  "/>
+</svg>
