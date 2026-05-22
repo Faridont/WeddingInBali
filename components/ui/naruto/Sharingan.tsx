@@ -7,10 +7,13 @@ export function Sharingan({
   className = "",
   size = 40,
   animate = true,
+  spinDuration = 16,
 }: {
   className?: string;
   size?: number;
   animate?: boolean;
+  /** Seconds per full rotation when animate is true */
+  spinDuration?: number;
 }) {
   const reduceMotion = useReducedMotion();
 
@@ -24,7 +27,7 @@ export function Sharingan({
       }
       transition={
         animate && !reduceMotion
-          ? { duration: 16, repeat: Infinity, ease: "linear" }
+          ? { duration: spinDuration, repeat: Infinity, ease: "linear" }
           : undefined
       }
     >

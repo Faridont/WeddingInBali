@@ -206,7 +206,10 @@ export function RSVPForm() {
               key="form"
               onSubmit={handleSubmit}
               noValidate
-              className="space-y-6"
+              aria-busy={status === "loading"}
+              className={`space-y-6 transition-opacity ${
+                status === "loading" ? "opacity-70" : ""
+              }`}
               initial={{ opacity: 1 }}
             >
               <NinjaScroll>
@@ -349,7 +352,11 @@ export function RSVPForm() {
                   className="gap-2"
                   disabled={status === "loading"}
                 >
-                  <Kunai size={18} spin={false} className="text-ninja-black" />
+                  {status === "loading" ? (
+                    <Sharingan size={18} animate spinDuration={1.2} />
+                  ) : (
+                    <Kunai size={18} spin={false} className="text-ninja-black" />
+                  )}
                   {status === "loading" ? rsvp.submitting : rsvp.submit}
                 </Button>
               </div>
