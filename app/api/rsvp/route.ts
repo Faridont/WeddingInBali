@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
+import { appendRSVP } from "@/lib/google-sheets";
 import { validateRsvp } from "@/lib/rsvp-validation";
-import {
-  RsvpStorageNotConfiguredError,
-  saveRsvp,
-} from "@/lib/rsvp-storage";
+import { RsvpStorageNotConfiguredError } from "@/lib/rsvp-storage";
 import type { RsvpApiError, RsvpApiSuccess } from "@/types/rsvp";
 
 export const runtime = "nodejs";
@@ -21,7 +19,7 @@ export async function POST(request: Request) {
       return NextResponse.json(errorResponse, { status: 400 });
     }
 
-    await saveRsvp(result.data);
+    await appendRSVP(result.data);
 
     const successResponse: RsvpApiSuccess = { ok: true };
     return NextResponse.json(successResponse);

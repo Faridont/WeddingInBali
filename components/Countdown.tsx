@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { weddingConfig } from "@/lib/wedding-config";
 import { SplitFlapUnit } from "@/components/ui/SplitFlapClock";
-import { Sharingan } from "@/components/ui/naruto";
+import { Rasengan, Sharingan } from "@/components/ui/naruto";
 
 interface TimeLeft {
   days: number;
@@ -106,7 +106,7 @@ export function Countdown() {
         <p className="font-display text-xs uppercase tracking-[0.3em] text-gold">
           ★ {weddingConfig.countdown.label} ★
         </p>
-        <Sharingan size={32} />
+        <Rasengan size={28} />
       </div>
       <div className="flex flex-wrap items-start justify-center gap-6 sm:gap-10">
         {units.map((unit) => (

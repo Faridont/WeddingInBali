@@ -1,5 +1,6 @@
 export { Kunai } from "./Kunai";
 export { Sharingan } from "./Sharingan";
+export { Rasengan } from "./Rasengan";
 export { Shuriken } from "./Shuriken";
 export { NinjaScroll } from "./NinjaScroll";
 export { MissionSeal } from "./MissionSeal";

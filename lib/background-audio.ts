@@ -8,7 +8,7 @@ export function getBackgroundAudio(): HTMLAudioElement | null {
     audio = new Audio(AUDIO_SRC);
     audio.loop = true;
     audio.volume = 0.5;
-    audio.preload = "auto";
+    audio.preload = "metadata";
   }
   return audio;
 }
@@ -24,7 +24,7 @@ export function preloadBackgroundMusic(): Promise<void> {
     el.addEventListener("canplaythrough", done, { once: true });
     el.addEventListener("error", done, { once: true });
     el.load();
-    window.setTimeout(done, 2500);
+    window.setTimeout(done, 1500);
   });
 }
 

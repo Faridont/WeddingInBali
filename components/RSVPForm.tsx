@@ -1,12 +1,18 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { weddingConfig } from "@/lib/wedding-config";
 import { validateRsvp } from "@/lib/rsvp-validation";
+import {
+  clearRsvpSubmitted,
+  getRsvpSubmitted,
+  markRsvpSubmitted,
+  type RsvpSubmittedEntry,
+} from "@/lib/rsvp-local-state";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { Kunai, NinjaScroll } from "@/components/ui/naruto";
+import { Kunai, NinjaScroll, Rasengan, Sharingan } from "@/components/ui/naruto";
 import {
   ATTENDANCE_LABELS,
   ATTENDANCE_OPTIONS,
@@ -17,13 +23,44 @@ import {
   type RsvpFormData,
 } from "@/types/rsvp";
 
-type FormStatus = "idle" | "loading" | "success" | "error";
+type FormStatus = "idle" | "loading" | "success" | "error" | "already";
+
+function formatSubmittedDate(iso: string): string {
+  try {
+    return new Intl.DateTimeFormat("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(iso));
+  } catch {
+    return iso;
+  }
+}
 
 export function RSVPForm() {
   const [form, setForm] = useState<RsvpFormData>(EMPTY_RSVP_FORM);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<FormStatus>("idle");
   const [formError, setFormError] = useState<string | null>(null);
+  const [submittedEntry, setSubmittedEntry] = useState<RsvpSubmittedEntry | null>(
+    null,
+  );
+
+  useEffect(() => {
+    const entry = getRsvpSubmitted();
+    if (entry) {
+      setSubmittedEntry(entry);
+      setStatus("already");
+    }
+
+    if (typeof window !== "undefined") {
+      (
+        window as Window & { __resetRsvp?: () => void }
+      ).__resetRsvp = clearRsvpSubmitted;
+    }
+  }, []);
 
   const updateField = <K extends keyof RsvpFormData>(
     key: K,
@@ -37,6 +74,15 @@ export function RSVPForm() {
         return next;
       });
     }
+  };
+
+  const handleReset = () => {
+    clearRsvpSubmitted();
+    setSubmittedEntry(null);
+    setForm(EMPTY_RSVP_FORM);
+    setErrors({});
+    setFormError(null);
+    setStatus("idle");
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -74,6 +120,8 @@ export function RSVPForm() {
         return;
       }
 
+      markRsvpSubmitted(validation.data.fullName);
+      setSubmittedEntry(getRsvpSubmitted());
       setStatus("success");
     } catch {
       setFormError("Проблема с сетью. Проверьте подключение и попробуйте снова.");
@@ -84,28 +132,73 @@ export function RSVPForm() {
   const inputClass = (field: string) =>
     `form-input ${errors[field] ? "form-input-error" : ""}`;
 
+  const { rsvp } = weddingConfig;
+
   return (
     <section id="rsvp" className="section-padding scroll-mt-8 bg-scroll-texture">
       <div className="container-narrow">
         <SectionHeading
-          title={weddingConfig.rsvp.title}
-          subtitle={weddingConfig.rsvp.subtitle}
+          title={rsvp.title}
+          subtitle={rsvp.subtitle}
           variant="scroll"
         />
 
         <AnimatePresence mode="wait">
-          {status === "success" ? (
+          {status === "success" || status === "already" ? (
             <motion.div
-              key="success"
+              key={status === "already" ? "already" : "success"}
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               className="text-center"
             >
               <NinjaScroll>
+                <div className="mb-3 flex items-center justify-center gap-4">
+                  <Sharingan
+                    className="opacity-90"
+                    size={44}
+                    animate={status === "success"}
+                  />
+                  {status === "already" && (
+                    <Rasengan className="opacity-90" size={56} />
+                  )}
+                </div>
                 <Kunai spin className="mx-auto mb-4 text-ninja-orange" size={36} />
-                <p className="font-display text-2xl uppercase text-ninja-orange md:text-3xl">
-                  {weddingConfig.rsvp.success}
+                {status === "already" && (
+                  <p className="font-display text-xs uppercase tracking-[0.35em] text-ninja-ink/60">
+                    {rsvp.alreadyHint}
+                  </p>
+                )}
+                <p
+                  className={`font-display text-2xl uppercase text-ninja-orange md:text-3xl ${
+                    status === "already" ? "mt-3" : ""
+                  }`}
+                >
+                  {status === "already" ? rsvp.alreadyTitle : rsvp.success}
                 </p>
+                {status === "already" && (
+                  <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-ninja-ink/85 md:text-lg">
+                    {rsvp.alreadyMessage}
+                  </p>
+                )}
+                {submittedEntry?.fullName && (
+                  <p className="mt-4 font-display text-sm uppercase tracking-wide text-ninja-ink/70">
+                    {submittedEntry.fullName}
+                  </p>
+                )}
+                {submittedEntry?.at && status === "already" && (
+                  <p className="mt-1 text-sm text-ninja-ink/55">
+                    {formatSubmittedDate(submittedEntry.at)}
+                  </p>
+                )}
+                {status === "already" && (
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="mt-6 text-sm text-ninja-ink/50 underline decoration-ninja-ink/30 underline-offset-2 transition-colors hover:text-ninja-orange hover:decoration-ninja-orange/50"
+                  >
+                    {rsvp.alreadyReset}
+                  </button>
+                )}
               </NinjaScroll>
             </motion.div>
           ) : (
@@ -257,9 +350,7 @@ export function RSVPForm() {
                   disabled={status === "loading"}
                 >
                   <Kunai size={18} spin={false} className="text-ninja-black" />
-                  {status === "loading"
-                    ? weddingConfig.rsvp.submitting
-                    : weddingConfig.rsvp.submit}
+                  {status === "loading" ? rsvp.submitting : rsvp.submit}
                 </Button>
               </div>
               </div>

@@ -63,7 +63,7 @@ function buildBurstPetals(width: number, height: number): BurstPetal[] {
     { x: width * 0.5, y: height * 0.22 },
     { x: width * 0.5, y: height * 0.78 },
   ];
-  const perOrigin = Math.max(6, Math.round(14 * d));
+  const perOrigin = Math.max(4, Math.round(8 * d));
 
   origins.forEach((origin, oi) => {
     for (let i = 0; i < perOrigin; i++) {
@@ -83,7 +83,7 @@ function buildBurstPetals(width: number, height: number): BurstPetal[] {
     }
   });
 
-  const extra = Math.max(12, Math.round(28 * d));
+  const extra = Math.max(8, Math.round(16 * d));
   for (let i = 0; i < extra; i++) {
     const originX = Math.random() * width;
     const originY = Math.random() * height;
@@ -106,7 +106,7 @@ function buildBurstPetals(width: number, height: number): BurstPetal[] {
 }
 
 function buildFallPetals(): FallPetal[] {
-  const count = Math.max(18, Math.round(48 * getPetalDensity()));
+  const count = Math.max(12, Math.round(28 * getPetalDensity()));
   return Array.from({ length: count }, (_, i) => ({
     id: i,
     leftPct: Math.random() * 100,
@@ -121,8 +121,8 @@ function buildFallPetals(): FallPetal[] {
 
 function burstStyle(p: BurstPetal): CSSProperties {
   return {
-    left: p.originX,
-    top: p.originY,
+    ["--x0" as string]: `${p.originX}px`,
+    ["--y0" as string]: `${p.originY}px`,
     ["--tx" as string]: `${p.tx}px`,
     ["--ty" as string]: `${p.ty}px`,
     ["--rot" as string]: `${p.rot}deg`,
@@ -163,7 +163,10 @@ export function SakuraPreloader() {
   }, []);
 
   const beginExperience = useCallback(async () => {
-    await preloadBackgroundMusic();
+    void Promise.race([
+      preloadBackgroundMusic(),
+      new Promise<void>((resolve) => window.setTimeout(resolve, 800)),
+    ]);
     await playBackgroundMusic();
     launchSakura();
   }, [launchSakura]);
@@ -174,7 +177,10 @@ export function SakuraPreloader() {
     let cancelled = false;
 
     (async () => {
-      await preloadBackgroundMusic();
+      await Promise.race([
+        preloadBackgroundMusic(),
+        new Promise<void>((resolve) => window.setTimeout(resolve, 800)),
+      ]);
       const autoplayOk = await playBackgroundMusic();
 
       if (cancelled) return;

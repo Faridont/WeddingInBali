@@ -193,6 +193,7 @@
   .sakura-petal-layer {
     contain: layout style paint;
     transform: translateZ(0);
+    will-change: transform;
   }
 
   .sakura-petal-burst,
@@ -202,9 +203,7 @@
     width: var(--size);
     height: var(--size);
     background: var(--hue);
-    border-radius: 50% 2% 50% 50%;
-    transform: rotate(35deg);
-    will-change: transform, opacity;
+    border-radius: 50%;
   }
 
   .sakura-petal-burst {
@@ -219,15 +218,19 @@
 
   @keyframes sakura-burst {
     0% {
-      transform: translate3d(0, 0, 0) scale(0) rotate(0deg);
+      transform: translate3d(var(--x0), var(--y0), 0) scale(0) rotate(0deg);
       opacity: 0;
     }
     15% {
       opacity: 0.95;
     }
     100% {
-      transform: translate3d(var(--tx), var(--ty), 0) scale(0.85)
-        rotate(var(--rot));
+      transform: translate3d(
+          calc(var(--x0) + var(--tx)),
+          calc(var(--y0) + var(--ty)),
+          0
+        )
+        scale(0.85) rotate(var(--rot));
       opacity: 0;
     }
   }

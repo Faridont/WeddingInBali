@@ -2,15 +2,17 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 
-/** Референс-патч «три томоэ» — картинка 1:1 с макетом. */
-export function Sharingan({
+/** Голубой расенган — WebP с прозрачным фоном. */
+export function Rasengan({
   className = "",
-  size = 40,
+  size = 48,
   animate = true,
+  duration = 6,
 }: {
   className?: string;
   size?: number;
   animate?: boolean;
+  duration?: number;
 }) {
   const reduceMotion = useReducedMotion();
 
@@ -19,22 +21,23 @@ export function Sharingan({
       className={`inline-flex shrink-0 items-center justify-center ${className}`}
       style={{ width: size, height: size }}
       aria-hidden="true"
-      animate={
-        animate && !reduceMotion ? { rotate: 360 } : undefined
-      }
+      animate={animate && !reduceMotion ? { rotate: 360 } : undefined}
       transition={
         animate && !reduceMotion
-          ? { duration: 16, repeat: Infinity, ease: "linear" }
+          ? { duration, repeat: Infinity, ease: "linear" }
           : undefined
       }
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/images/sharingan-icon.webp"
+        src="/images/rasengan-icon.webp"
         alt=""
         width={size}
         height={size}
         className="h-full w-full object-contain"
+        style={{
+          filter: "drop-shadow(0 0 12px rgba(120,200,255,0.55))",
+        }}
         draggable={false}
       />
     </motion.div>

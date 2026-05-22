@@ -51,6 +51,28 @@ export const weddingConfig = {
     note: "Программу праздника и все детали дня мы пришлём ближе к дате — сейчас как раз всё планируем. Если есть интересные идеи для празднования напишите их в комментарии формы ниже...",
   },
 
+  trip: {
+    title: "Когда мы летим",
+    subtitle: "Планируем неделю на Бали — присоединяйтесь к нам",
+    datesLabel: "17–24 сентября 2026",
+    datesNote: "Неделя на Бали. Основное мероприятие — 19 сентября.",
+    agency: {
+      intro:
+        "Бронируем поездку через Fun & Sun (филиал Keremet Tour). Если удобно — можно лететь с нами через того же оператора:",
+      name: "Fun & Sun · Keremet Tour",
+      managerLabel: "Менеджер",
+      managerName: "Саида",
+      whatsapp: "+7 707 506 0689",
+      whatsappUrl: "https://wa.me/77075060689",
+      email: "keremet-tour@mail.ru",
+      instagram: "@keremet.tour",
+      instagramUrl: "https://www.instagram.com/keremet.tour",
+      address: "Астана, просп. Республики 24, БЦ «Парасат», 3 этаж",
+      mapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=%D0%9F%D0%B0%D1%80%D0%B0%D1%81%D0%B0%D1%82+%D0%90%D1%81%D1%82%D0%B0%D0%BD%D0%B0+%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8+24",
+    },
+  },
+
   accommodation: {
     text: "Мы рассматриваем вариант аренды виллы/домиков для гостей. Поэтому нам важно заранее понять, кто планирует приехать.",
   },
@@ -97,6 +119,12 @@ export const weddingConfig = {
         "Да, для въезда в Индонезию оформите e-VOA онлайн (500 000 IDR, ≈ 35 USD / ≈ 17 500 ₸) на evisa.imigrasi.go.id до вылета. Подробности — в блоке «Виза и въезд» на этой странице.",
     },
     {
+      id: "tour-booking",
+      question: "Как удобнее забронировать тур?",
+      answer:
+        "Мы летим через Fun & Sun (филиал Keremet Tour). Контакты менеджера Саиды — в блоке «Когда мы летим» (#trip) на этой странице.",
+    },
+    {
       id: "location",
       question: "Где именно пройдёт свадьба?",
       answer:
@@ -123,6 +151,11 @@ export const weddingConfig = {
     submitting: "Отправляем…",
     success:
       "Ура! Мы получили ваш ответ ❤️ Скоро поделимся деталями поездки.",
+    alreadyTitle: "Миссия уже принята",
+    alreadyMessage:
+      "Свиток с твоим именем уже в архиве Хокаге. Жди вызова — встретимся на Бали и проведём этот день вместе.",
+    alreadyHint: "Ответ был отправлен",
+    alreadyReset: "Это не я / отправить заново",
   },
 
   footer: {

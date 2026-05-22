@@ -1,6 +1,7 @@
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { LocationMap } from "@/components/LocationMap";
+import { TripInfo } from "@/components/TripInfo";
 import { FaqSection } from "@/components/FaqSection";
 import { VisaInfo } from "@/components/VisaInfo";
 import { Accommodation } from "@/components/Accommodation";
@@ -13,6 +14,7 @@ export default function Home() {
       <Hero />
       <About />
       <LocationMap />
+      <TripInfo />
       <FaqSection />
       <VisaInfo />
       <Accommodation />

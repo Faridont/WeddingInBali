@@ -41,12 +41,6 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${display.variable} ${sans.variable}`}>
       <body>
-        <audio
-          src="/audio/blue-bird.mp3"
-          preload="auto"
-          className="hidden"
-          aria-hidden="true"
-        />
         <SakuraPreloader />
         <BackgroundMusic />
         {children}

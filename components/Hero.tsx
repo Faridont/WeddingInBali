@@ -12,6 +12,7 @@ import {
   MissionSeal,
   NinjaScroll,
   NarutoCorners,
+  Rasengan,
   Sharingan,
 } from "@/components/ui/naruto";
 
@@ -43,6 +44,11 @@ export function Hero() {
       >
         <NarutoSpiral size={200} />
       </motion.div>
+      <Rasengan
+        className="pointer-events-none absolute -bottom-10 -left-10 z-[5] opacity-50 blur-[1px]"
+        size={320}
+        duration={30}
+      />
 
       <motion.div
         className="container-wide relative z-10 px-4 py-20 pb-28 text-center sm:pb-32 xl:pb-20"
