@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import type { RsvpFormData } from "@/types/rsvp";
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
@@ -8,14 +9,14 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-export async function appendRSVP(data: any) {
+export async function appendRSVP(data: RsvpFormData) {
   const sheets = google.sheets({
     version: "v4",
     auth,
   });
 
   await sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
     range: "RSVP!A:H",
     valueInputOption: "USER_ENTERED",
     requestBody: {
