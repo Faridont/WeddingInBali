@@ -1,4 +1,4 @@
-const RSVP_DEADLINE = "1 августа 2026";
+const RSVP_DEADLINE = "1 июля 2026";
 
 export const weddingConfig = {
   brideName: "Ботагоз",

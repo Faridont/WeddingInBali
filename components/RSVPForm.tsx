@@ -25,6 +25,10 @@ import {
 
 type FormStatus = "idle" | "loading" | "success" | "error" | "already";
 
+type RsvpFormState = Omit<RsvpFormData, "guestCount"> & {
+  guestCount: number | "";
+};
+
 function formatSubmittedDate(iso: string): string {
   try {
     return new Intl.DateTimeFormat("ru-RU", {
@@ -40,7 +44,7 @@ function formatSubmittedDate(iso: string): string {
 }
 
 export function RSVPForm() {
-  const [form, setForm] = useState<RsvpFormData>(EMPTY_RSVP_FORM);
+  const [form, setForm] = useState<RsvpFormState>(EMPTY_RSVP_FORM);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<FormStatus>("idle");
   const [formError, setFormError] = useState<string | null>(null);
@@ -62,9 +66,9 @@ export function RSVPForm() {
     }
   }, []);
 
-  const updateField = <K extends keyof RsvpFormData>(
+  const updateField = <K extends keyof RsvpFormState>(
     key: K,
-    value: RsvpFormData[K],
+    value: RsvpFormState[K],
   ) => {
     setForm((prev) => ({ ...prev, [key]: value }));
     if (errors[key]) {
@@ -244,7 +248,7 @@ export function RSVPForm() {
                   value={form.phone}
                   onChange={(e) => updateField("phone", e.target.value)}
                   className={inputClass("phone")}
-                  placeholder="+7 700 123 45 67"
+                  placeholder="+7 707 123 45 67 / +1 555 123 4567"
                   autoComplete="tel"
                   inputMode="tel"
                   aria-invalid={!!errors.phone}
@@ -319,14 +323,22 @@ export function RSVPForm() {
                 required
               >
                 <input
-                  type="number"
+                  type="text"
                   name="guestCount"
-                  min={1}
-                  max={10}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={2}
                   value={form.guestCount}
-                  onChange={(e) =>
-                    updateField("guestCount", parseInt(e.target.value, 10) || 1)
-                  }
+                  onChange={(e) => {
+                    const digitsOnly = e.target.value.replace(/\D/g, "").slice(0, 2);
+                    if (digitsOnly === "") {
+                      updateField("guestCount", "");
+                      return;
+                    }
+
+                    const parsed = Number(digitsOnly);
+                    updateField("guestCount", parsed > 10 ? 10 : parsed);
+                  }}
                   className={inputClass("guestCount")}
                   aria-invalid={!!errors.guestCount}
                   disabled={status === "loading"}
